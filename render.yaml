@@ -1,0 +1,43 @@
+services:
+  - type: redis
+    name: bskysage-redis
+    ipAllowList: []
+    plan: free
+
+  - type: web
+    name: bskysage-worker
+    env: python
+    buildCommand: pip install -r requirements.txt && pip install -e .
+    startCommand: bskysage-worker
+    envVars:
+      - key: BSKY_USERNAME
+        sync: false
+      - key: BSKY_PASSWORD
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: REDIS_HOST
+        value: bskysage-redis
+      - key: REDIS_PORT
+        value: 6379
+      - key: REDIS_PASSWORD
+        sync: false
+
+  - type: web
+    name: bskysage-service
+    env: python
+    buildCommand: pip install -r requirements.txt && pip install -e .
+    startCommand: bskysage-service
+    envVars:
+      - key: BSKY_USERNAME
+        sync: false
+      - key: BSKY_PASSWORD
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: REDIS_HOST
+        value: bskysage-redis
+      - key: REDIS_PORT
+        value: 6379
+      - key: REDIS_PASSWORD
+        sync: false 
