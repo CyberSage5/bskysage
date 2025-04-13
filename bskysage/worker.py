@@ -12,16 +12,23 @@ redis_conn = redis.Redis(
     db=0
 )
 
-# Initialize bot
-bot = BskySage()
-
 def process_mention(mention_data: dict):
-    """Process a mention from the queue"""
+    """Process a mention in the worker"""
     try:
+        # Convert dict to Mention object
         mention = Mention(**mention_data)
+        
+        # Initialize bot
+        bot = BskySage()
+        
+        # Process the mention
         bot.process_mention(mention)
+        
+        logger.info(f"Successfully processed mention {mention.uri}")
+        
     except Exception as e:
-        logger.error(f"Error processing mention from queue: {e}")
+        logger.error(f"Error processing mention in worker: {e}")
+        logger.exception("Full traceback:")
 
 def main():
     """Main entry point for the worker"""

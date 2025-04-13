@@ -18,7 +18,7 @@ class BskySageService:
         
     def run(self):
         """Run the BskySage service"""
-        logger.info("Starting BskySage service...")
+        logger.info("Starting BskySage screenshot service...")
         
         while True:
             try:
